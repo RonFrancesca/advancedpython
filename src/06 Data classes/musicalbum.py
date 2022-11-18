@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 from typing import List
 
+# using the dataclass, the str and eq and the constructor come for free with the decorator.
 
 @dataclass
 class MusicAlbum:

@@ -60,6 +60,10 @@ if __name__ == "__main__":
         "songs": ["ABitW1", "ABiTW2"]
     }
     the_wall = MusicAlbum(**params)
+
+
+    # we have to get the dictionary because MusicAlbum is a pydantic class and we cannot dump it like this
+    # we should get the dictionary and then save it
     the_wall_dict = the_wall.dict()
     print(the_wall_dict)
 
@@ -69,5 +73,6 @@ if __name__ == "__main__":
     json_serializer.dump(the_wall_dict, path)
     the_wall_dict_2 = json_serializer.load(path)
 
+    # from the dictionary we retrieve, we make another MusicAlbum object
     the_wall_2 = MusicAlbum(**the_wall_dict_2)
     print(the_wall_2)
