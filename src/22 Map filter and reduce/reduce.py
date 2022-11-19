@@ -3,7 +3,7 @@
 
 from functools import reduce
 
-numbers = [1, 2, 3]
+numbers = [1, 2, 3, 3]
 
 cumulative_sum = reduce(lambda a, b: a + b, numbers)
 print(cumulative_sum)

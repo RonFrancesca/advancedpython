@@ -2,17 +2,16 @@ from time import perf_counter
 
 class CodeExecutionTimer:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.start_time = None
-        self.stop_time = None
+        self.end_time = None
 
     def __enter__(self):
         self.start_time = perf_counter()
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.stop_time = perf_counter()
-        print(f"Execution time: {self.stop_time - self.start_time} seconds")
-
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+        self.end_time = perf_counter()
+        print(f"The execution time of the code within the with is {self.end_time - self.start_time}")
 
 if __name__ == "__main__":
     with CodeExecutionTimer():

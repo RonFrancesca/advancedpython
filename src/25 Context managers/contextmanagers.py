@@ -35,6 +35,7 @@ class WriteFile:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         # Handle exceptions
+        #print(exc_type, exc_val, exc_tb)
         self.file.close()
 
 
@@ -52,3 +53,9 @@ with WriteFile("data.txt") as f:
 
 
 
+
+
+'''
+The context manager is useful especially when we need to deal with some resources that need to be open, and then close.
+or connected and then disconnected and so long. 
+'''
