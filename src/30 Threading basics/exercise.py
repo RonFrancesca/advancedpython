@@ -30,7 +30,8 @@ def generate_files_to_load_for_threads(common_root: str,
 
 if __name__ == "__main__":
 
-    files_for_threads = generate_files_to_load_for_threads("dummy_", NUM_THREADS, NUM_FILES)
+    path = "src/30 Threading basics/"
+    files_for_threads = generate_files_to_load_for_threads(path + "dummy_", NUM_THREADS, NUM_FILES)
 
     threads = []
     loaded_data = []
