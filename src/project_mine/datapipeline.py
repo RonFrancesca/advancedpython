@@ -12,36 +12,38 @@ from project.loading.serialization import JsonSerializer
 from project.transforming.currencyconverter import CurrencyConverter, latest_exchange_rates
 from project.transforming.pricemultiplier import PriceMultiplier
 
-
 class DataPipeline:
-    """A class that wraps the different components of the system. It processes
-    data using these steps:  load -> apply transforms -> store
+    """the class wrapp all the different components of the system. It processes the data with the following steps:
+    1. load
+    2. apply transforms
+    3. store
     """
 
-    def __init__(self,
-                 loader_iterator: LoaderIterator,
-                 batch_transformer: BatchTransformer,
-                 storer: SQLiteBatchProductStorer,
-                 sqlite_context_manager: SQLiteContextManager) -> None:
+    def __init__(self, 
+                loader_iterator: LoaderIterator, 
+                batch_transfomer: BatchTransformer, 
+                storer: SQLiteBatchProductStorer,
+                sql_context_manager: SQLiteContextManager) -> None:
         self.loader_iterator = loader_iterator
-        self.batch_transformer = batch_transformer
+        self.batch_transfomer = batch_transfomer
         self.storer = storer
-        self.sqlite_context_manager = sqlite_context_manager
+        self.sql_context_manager = sql_context_manager
 
     @accepts_types(list)
     def process(self, load_paths: List[Path]) -> None:
-        """Process files in batches: load -> transform -> store to db."""
+        """process the data following the steps mentioned above"""
         self.loader_iterator.load_paths = load_paths
         with self.sqlite_context_manager as db_cursor:
-            for product_data_batch in self.loader_iterator:
-                 self._process_product_batch(db_cursor, product_data_batch)
+            for product_data_batch in self.loader_iterator: # retrieve batches at every iter
+                self._process_product_batch(db_cursor, product_data_batch)
 
-    def _process_product_batch(self,
-                               db_cursor: Cursor,
+    def _process_product_batch(self, 
+                               db_cursor: Cursor, 
                                product_data_batch: List[Dict]) -> None:
         products = create_products(product_data_batch)
-        transformed_products = self.batch_transformer.apply(products)
+        transformed_products = self.batch_transfomer.apply(products)
         self.storer.store(db_cursor, transformed_products)
+
 
 
 def create_hardcoded_data_pipeline() -> DataPipeline:
